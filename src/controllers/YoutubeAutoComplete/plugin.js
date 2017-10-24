@@ -7,11 +7,21 @@ import YoutubeFinder from 'youtube-finder';
 const googleAutoSuggestURL = '//suggestqueries.google.com/complete/search?client=youtube&ds=yt&q=';
 
 class YoutubeAutocomplete extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            inputValue: ''
+            inputValue: props.inputValue || ''
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        // console.log('will receive props');
+        // console.log(this.props.inputValue);
+        // console.log(nextProps.inputValue);
+        if (nextProps.inputValue !== this.props.inputValue) {
+            this.setState({
+                inputValue: nextProps.inputValue
+            });
         }
     }
 
@@ -35,6 +45,10 @@ class YoutubeAutocomplete extends Component {
                 });
             }
         });
+
+        if (typeof this.props.onChange === 'function') {
+            this.props.onChange(event);
+        }
     }
 
     onClick(event, optionData) {
@@ -77,6 +91,7 @@ class YoutubeAutocomplete extends Component {
     }
 
     render() {
+        console.log(this.state.inputValue);
         // React components using ES6 classes no longer autobind this to non React methods. In your constructor, add:
         // this.onChange = this.onChange.bind(this)
         // this is why you have to do onChange={this.handleChange.bind(this)}

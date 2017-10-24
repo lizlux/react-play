@@ -22,6 +22,7 @@ export default class YoutubeAutoComplete extends Component {
     };
 
     _onChange = (event) => {
+        console.log('on change fired');
         const value = event.target.value;
         this.setState({
             value
